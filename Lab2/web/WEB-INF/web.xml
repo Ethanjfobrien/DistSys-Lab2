@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>MyHttpServlet</servlet-name>
+        <servlet-class>httpServlets.MyHttpServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DefaultStyleChangeServlet</servlet-name>
+        <servlet-class>httpServlets.DefaultStyleChangeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ContentServlet</servlet-name>
+        <servlet-class>httpServlets.ContentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyHttpServlet</servlet-name>
+        <url-pattern>/MyHttpServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DefaultStyleChangeServlet</servlet-name>
+        <url-pattern>/DefaultStyleChangeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ContentServlet</servlet-name>
+        <url-pattern>/ContentServlet</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
