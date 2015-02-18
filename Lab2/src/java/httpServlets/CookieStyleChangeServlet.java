@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author puser
  */
-public class DefaultStyleChangeServlet extends HttpServlet {
+public class CookieStyleChangeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,30 +30,15 @@ public class DefaultStyleChangeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String color = request.getParameter("formColor") != null? request.getParameter("formColor") : "red";
-        String bgColor = request.getParameter("formBgColor") != null? request.getParameter("formBgColor"): "#555";
-        String textSize = request.getParameter("formTextSize") != null? request.getParameter("formTextSize"): "14px";
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DefaultStyleChangeServlet</title>");            
+            out.println("<title>Servlet CookieStyleChangeServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<div style="
-                    + "\"height: 500px; text-align: center; padding: 50px; "
-                    + "color: "
-                    + color
-                    + "; background-color: "
-                    + bgColor 
-                    + "; font-size: "
-                    + textSize
-                    + ";\" >"
-                    + "<p>Some arbitrary text</p>"
-                    + "</div>"
-                    + "<hr>");
-            request.getRequestDispatcher("style-form.html").include(request, response);
+            out.println("<h1>Servlet CookieStyleChangeServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

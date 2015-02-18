@@ -11,14 +11,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 /**
  *
  * @author puser
  */
 public class ContentServlet extends HttpServlet {
+    
+    
+    private String color;
+    private String bgColor;
+    private String textSize;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -30,10 +35,18 @@ public class ContentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Cookie[] cookies = request.getCookies();
+        if( cookies != null ) {
+            for(Cookie cookie : cookies) {
+                assignMemberOnCookieMatch(cookie);
+            }
+        }
+        else {
+            color = "red";
+            bgColor = "#555";
+            textSize = "14px";
+        }
         response.setContentType("text/html;charset=UTF-8");
-        String color = request.getParameter("formColor") != null? request.getParameter("formColor"): "red";
-        String bgColor = request.getParameter("formBgColor") != null? request.getParameter("formBgColor"): "#555";
-        String textSize = request.getParameter("formTextSize") != null? request.getParameter("formTextSize"): "14px";
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -55,6 +68,20 @@ public class ContentServlet extends HttpServlet {
             out.println("</html>");
         }
     }
+    
+    private void assignMemberOnCookieMatch(Cookie cookie) {
+        switch(cookie.getName()) {
+            case "color":
+                color = cookie.getValue();
+                break;
+            case "bgColor":
+                bgColor = cookie.getValue();
+                break;
+            case "textSize":
+                textSize = cookie.getValue();
+                break;
+        }            
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -69,7 +96,7 @@ public class ContentServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("don't post to here");
+            out.println("don't use http post to this servlet");
         }
     }
 
