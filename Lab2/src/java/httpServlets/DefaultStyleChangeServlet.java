@@ -30,9 +30,16 @@ public class DefaultStyleChangeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String color = request.getParameter("formColor") != null? request.getParameter("formColor") : "red";
-        String bgColor = request.getParameter("formBgColor") != null? request.getParameter("formBgColor"): "#555";
-        String textSize = request.getParameter("formTextSize") != null? request.getParameter("formTextSize"): "14px";
+        
+        String color = request.getParameter("formColor");
+        color = color != null ? color : "red";
+        
+        String bgColor = request.getParameter("formBgColor") ;
+        bgColor = bgColor != null ? bgColor : "#555";
+        
+        String textSize = request.getParameter("formTextSize");
+        textSize = textSize != null? textSize : "14px";
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -53,7 +60,9 @@ public class DefaultStyleChangeServlet extends HttpServlet {
                     + "<p>Some arbitrary text</p>"
                     + "</div>"
                     + "<hr>");
-            request.getRequestDispatcher("style-form.html").include(request, response);
+            out.println("<form action=\"DefaultStyleChangeServlet\" method=\"POST\">");
+            request.getRequestDispatcher("style-form-contents.html").include(request, response);
+            out.println("</form>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -97,5 +106,5 @@ public class DefaultStyleChangeServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }

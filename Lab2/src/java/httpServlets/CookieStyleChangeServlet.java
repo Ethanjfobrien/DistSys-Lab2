@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 /**
  *
@@ -18,33 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CookieStyleChangeServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CookieStyleChangeServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CookieStyleChangeServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+    
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -56,7 +32,21 @@ public class CookieStyleChangeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>ex 3b</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<form action=\"CookieStyleChangeServlet\" method=\"POST\">");
+            request.getRequestDispatcher("style-form-contents.html").include(request, response);
+            out.println("</form>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     /**
@@ -70,7 +60,31 @@ public class CookieStyleChangeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Cookie[] cookies = new Cookie[3];
+        String color = getIfNotNull(request.getParameter("formColor"), "");
+        cookies[0] = new Cookie("color",color);
+        String bgColor = getIfNotNull(request.getParameter("formBgColor"), "");
+        cookies[1] = new Cookie("bgColor", bgColor);
+        String textSize = getIfNotNull(request.getParameter("formTextSize"), "");
+        cookies[2] = new Cookie("textSize", textSize);
+        
+        for(Cookie cookie : cookies){
+            response.addCookie(cookie);
+        }
+        response.sendRedirect("ContentServlet");
+        /*response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("don't use http post to this servlet");
+        }*/        
+    }
+    
+    private static <T extends Object> T getIfNotNull(T possiblyNull, T alternateValue) {
+        if(possiblyNull == null){
+            return alternateValue;
+        }
+        else {
+            return possiblyNull;
+        }
     }
 
     /**
@@ -81,6 +95,6 @@ public class CookieStyleChangeServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
