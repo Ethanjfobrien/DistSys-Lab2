@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,20 +31,54 @@ public class SessionStyleChangeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("formColor", request.getParameter("formColor"));
+        session.setAttribute("formBgColor", request.getParameter("formBgColor"));
+        session.setAttribute("formTextSize", request.getParameter("formTextSize"));
+//        if(request.getParameter("Reset") != null){
+//            response.sendRedirect("SessionStyleChangeServlet");
+//        }
+        String color = (String) session.getAttribute("formColor");
+        color = color != null ? color : "red";
+        
+        String bgColor = (String) session.getAttribute("formBgColor") ;
+        bgColor = bgColor != null ? bgColor : "#555";
+        
+        String textSize = (String) session.getAttribute("formTextSize");
+        textSize = textSize != null? textSize : "14px";        
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SessionStyleChangeServlet</title>");            
+            out.println("<title>SessionStyleChangeServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SessionStyleChangeServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
+            out.println("<div style="
+                    + "\"height: 500px; text-align: center; padding: 50px; "
+                    + "color: "
+                    + color
+                    + "; background-color: "
+                    + bgColor 
+                    + "; font-size: "
+                    + textSize
+                    + ";\" >"
+                    + "<p>Some arbitrary text</p>"
+                    + "</div>"
+                    + "<hr>");
+            out.println("<form action=\"SessionStyleChangeServlet\" method=\"POST\">");
+            request.getRequestDispatcher("style-form-contents.html").include(request, response);
+            out.println("</form>");
+            out.println("<form action=\"SessionStyleChangeServlet\" method=\"POST\">");
+            out.println("<input type=\"submit\" name=\"Reset\" value=\"reset\">");
+            out.println("</form>");
             out.println("</html>");
         }
-    }
+    }    
+    
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
