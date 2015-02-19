@@ -16,6 +16,10 @@
         <servlet-name>CookieStyleChangeServlet</servlet-name>
         <servlet-class>httpServlets.CookieStyleChangeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SessionStyleChangeServlet</servlet-name>
+        <servlet-class>httpServlets.SessionStyleChangeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyHttpServlet</servlet-name>
         <url-pattern>/MyHttpServlet</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>CookieStyleChangeServlet</servlet-name>
         <url-pattern>/CookieStyleChangeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SessionStyleChangeServlet</servlet-name>
+        <url-pattern>/SessionStyleChangeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
