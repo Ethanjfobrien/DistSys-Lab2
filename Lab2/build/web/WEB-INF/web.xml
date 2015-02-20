@@ -20,6 +20,10 @@
         <servlet-name>SessionStyleChangeServlet</servlet-name>
         <servlet-class>httpServlets.SessionStyleChangeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MultipleUserLoginServlet</servlet-name>
+        <servlet-class>httpServlets.MultipleUserLoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyHttpServlet</servlet-name>
         <url-pattern>/MyHttpServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>SessionStyleChangeServlet</servlet-name>
         <url-pattern>/SessionStyleChangeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MultipleUserLoginServlet</servlet-name>
+        <url-pattern>/MultipleUserLoginServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
