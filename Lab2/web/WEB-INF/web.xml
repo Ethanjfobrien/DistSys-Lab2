@@ -24,6 +24,10 @@
         <servlet-name>MultipleUserLoginServlet</servlet-name>
         <servlet-class>httpServlets.MultipleUserLoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserStyleChangeServlet</servlet-name>
+        <servlet-class>httpServlets.UserStyleChangeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MyHttpServlet</servlet-name>
         <url-pattern>/MyHttpServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>MultipleUserLoginServlet</servlet-name>
         <url-pattern>/MultipleUserLoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserStyleChangeServlet</servlet-name>
+        <url-pattern>/UserStyleChangeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
