@@ -5,7 +5,7 @@
  */
 package httpServlets;
 
-import ADTs.User;
+import dataTypes.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UserStyleChangeServlet extends HttpServlet {
 
-    private ArrayList<User> users;
+    private ArrayList<User> users = new ArrayList();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,34 +34,67 @@ public class UserStyleChangeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = "";
+        
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            
+            String userName = null;
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("userName")) {
                     userName = cookie.getValue();
                     break;
                 }
             }
-        }
-        
-        else {
-            response.sendRedirect("MultipleUserLoginServlet");
-        }
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DefaultStyleChangeServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("hello " + userName);
-            out.println("</body>");
-            out.println("</html>");
-        }
+            if(userName != null ) {
+                
+                User currentUser = new User(userName);
+                if( users.contains(currentUser) ) {
+                    currentUser = users.get(users.indexOf(currentUser));
+                }
+                else {
+                    users.add(currentUser);
+                }                        
+                
+                currentUser.update(request);
+                
+                String color = currentUser.getColor() ;
+                color = color != null ? color : "red";
+                
+                String bgColor = currentUser.getBgColor() ;
+                bgColor = bgColor != null ? bgColor : "#555";
 
+                String textSize = currentUser.getTextSize();
+                textSize = textSize != null? textSize : "14px";
+                
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Servlet DefaultStyleChangeServlet</title>");            
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("<div style="
+                            + "\"height: 500px; text-align: center; padding: 50px; "
+                            + "color: "
+                            + color
+                            + "; background-color: "
+                            + bgColor 
+                            + "; font-size: "
+                            + textSize
+                            + ";\" >"
+                            + "<p>Some arbitrary text</p>"
+                            + "</div>"
+                            + "<hr>");
+                    out.println("<form action=\"UserStyleChangeServlet\" method=\"POST\">");
+                    request.getRequestDispatcher("style-form-contents.html").include(request, response);
+                    out.println("</form>");
+                    out.println("<a href=\"MultipleUserLoginServlet\">back to login</a>");
+                    out.println("</body>");
+                    out.println("</html>");
+                    return ;// servlet's job is done when document body is printed 
+                }
+            }
+        }
+        response.sendRedirect("MultipleUserLoginServlet");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
